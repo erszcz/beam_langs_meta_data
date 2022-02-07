@@ -125,25 +125,9 @@ defmodule BeamLangsMetaData.Util do
   defp build_assets(assets) do
     for json_asset <- assets do
       %{
-        content_type: json_asset.content_type,
-        created_at: json_asset.created_at,
-        download_url: json_asset.browser_download_url,
-        id: json_asset.id,
-        label: json_asset[:label],
-        name: json_asset.name,
-        node_id: json_asset.node_id,
-        size: json_asset.size,
-        state: json_asset.state,
-        url: json_asset.url
+        content_type: json_asset.content_type
       }
     end
-  end
-
-  @spec make_entry(any) :: %{required(:assets_url) => String.t}
-  def make_entry(json_entry) do
-    %{
-      assets_url: json_entry.url
-    }
   end
 
   def build_releases(list, :elixir) do
@@ -174,7 +158,9 @@ defmodule BeamLangsMetaData.Util do
         |> Enum.map(fn {version, json_entry} ->
           assets = build_assets(json_entry.assets)
 
-          entry = make_entry(json_entry)
+          entry = %{
+            assets_url: json_entry.url,
+          }
 
           {:"#{version}", entry}
         end)

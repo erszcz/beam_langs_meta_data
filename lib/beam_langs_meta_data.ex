@@ -88,23 +88,23 @@ defmodule BeamLangsMetaData do
   This data is extracted from Github JSON release file and is stripped down and slightly modified.
   """
   @type elixir_release_data :: %{
-          optional(:assets) => nonempty_list(release_data_asset()),
-          optional(:assets_url) => url(),
-          optional(:body) => String.t(),
-          optional(:created_at) => timestamp_string(),
-          optional(:draft) => boolean(),
-          optional(:release_url) => url(),
-          optional(:id) => pos_integer,
-          optional(:name) => version_string(),
-          optional(:node_id) => String.t(),
-          optional(:prerelease) => boolean(),
-          optional(:published_at) => timestamp_string(),
-          optional(:tag_name) => git_tag(),
-          optional(:tarball_url) => url(),
-          optional(:target_commitish) => git_tag(),
-          optional(:upload_url) => url(),
-          optional(:url) => url(),
-          optional(:zipball_url) => url()
+          :assets => nonempty_list(release_data_asset()),
+          :assets_url => url(),
+          :body => String.t(),
+          :created_at => timestamp_string(),
+          :draft => boolean(),
+          :release_url => url(),
+          :id => pos_integer,
+          :name => version_string(),
+          :node_id => String.t(),
+          :prerelease => boolean(),
+          :published_at => timestamp_string(),
+          :tag_name => git_tag(),
+          :tarball_url => url(),
+          :target_commitish => git_tag(),
+          :upload_url => url(),
+          :url => url(),
+          :zipball_url => url()
         }
 
   @typedoc """
@@ -231,9 +231,8 @@ defmodule BeamLangsMetaData do
           nonempty_keyword(
             major_minor_version :: atom(),
             %{
-              :latest => version_string(),
-              :releases => nonempty_keyword(elixir_version :: atom(), elixir_release_data()),
-              optional(any()) => any()
+              latest: version_string(),
+              releases: nonempty_keyword(elixir_version :: atom(), elixir_release_data())
             }
           )
 
@@ -334,20 +333,6 @@ defmodule BeamLangsMetaData do
           ]
         }
       ]
-
-  """
-  @spec otp_releases() ::
-          nonempty_keyword(
-            major_version :: atom(),
-            %{
-              latest: otp_version(),
-              releases: nonempty_keyword(otp_version :: atom(), otp_release_data())
-            }
-          )
-  @otp_releases priv_dir("otp_releases.json")
-                |> read_and_decode_json!()
-                |> build_releases(:otp)
-  def otp_releases(), do: @otp_releases
 
   @doc """
   Returns a compatibilty table between Elixir and Erlang/OTP, and viceversa.
