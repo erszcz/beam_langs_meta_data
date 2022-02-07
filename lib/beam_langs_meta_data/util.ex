@@ -139,6 +139,13 @@ defmodule BeamLangsMetaData.Util do
     end
   end
 
+  @spec make_entry(any) :: %{required(:assets_url) => String.t}
+  def make_entry(json_entry) do
+    %{
+      assets_url: json_entry.url
+    }
+  end
+
   def build_releases(list, :elixir) do
     list = convert_keys_to_atoms(list)
 
@@ -167,25 +174,7 @@ defmodule BeamLangsMetaData.Util do
         |> Enum.map(fn {version, json_entry} ->
           assets = build_assets(json_entry.assets)
 
-          entry = %{
-            assets: assets,
-            assets_url: json_entry.url,
-            body: json_entry.body,
-            created_at: json_entry.created_at,
-            draft: json_entry.draft,
-            release_url: json_entry.html_url,
-            id: json_entry.id,
-            name: String.trim_leading(json_entry.tag_name, "v"),
-            node_id: json_entry.node_id,
-            prerelease: json_entry.prerelease,
-            published_at: json_entry.published_at,
-            tag_name: json_entry.tag_name,
-            tarball_url: json_entry.tarball_url,
-            target_commitish: json_entry.target_commitish,
-            upload_url: json_entry.upload_url,
-            url: json_entry.url,
-            zipball_url: json_entry.zipball_url
-          }
+          entry = make_entry(json_entry)
 
           {:"#{version}", entry}
         end)

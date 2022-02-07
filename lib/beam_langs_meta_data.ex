@@ -88,23 +88,7 @@ defmodule BeamLangsMetaData do
   This data is extracted from Github JSON release file and is stripped down and slightly modified.
   """
   @type elixir_release_data :: %{
-          :assets => nonempty_list(release_data_asset()),
-          :assets_url => url(),
-          :body => String.t(),
-          :created_at => timestamp_string(),
-          :draft => boolean(),
-          :release_url => url(),
-          :id => pos_integer,
-          :name => version_string(),
-          :node_id => String.t(),
-          :prerelease => boolean(),
-          :published_at => timestamp_string(),
-          :tag_name => git_tag(),
-          :tarball_url => url(),
-          :target_commitish => git_tag(),
-          :upload_url => url(),
-          :url => url(),
-          :zipball_url => url()
+          optional(:assets_url) => url()
         }
 
   @typedoc """
@@ -231,8 +215,9 @@ defmodule BeamLangsMetaData do
           nonempty_keyword(
             major_minor_version :: atom(),
             %{
-              latest: version_string(),
-              releases: nonempty_keyword(elixir_version :: atom(), elixir_release_data())
+              :latest => version_string(),
+              :releases => nonempty_keyword(elixir_version :: atom(), elixir_release_data()),
+              optional(any()) => any()
             }
           )
 
