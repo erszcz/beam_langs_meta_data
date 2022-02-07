@@ -88,7 +88,23 @@ defmodule BeamLangsMetaData do
   This data is extracted from Github JSON release file and is stripped down and slightly modified.
   """
   @type elixir_release_data :: %{
-          optional(:assets_url) => url()
+          optional(:assets) => nonempty_list(release_data_asset()),
+          optional(:assets_url) => url(),
+          optional(:body) => String.t(),
+          optional(:created_at) => timestamp_string(),
+          optional(:draft) => boolean(),
+          optional(:release_url) => url(),
+          optional(:id) => pos_integer,
+          optional(:name) => version_string(),
+          optional(:node_id) => String.t(),
+          optional(:prerelease) => boolean(),
+          optional(:published_at) => timestamp_string(),
+          optional(:tag_name) => git_tag(),
+          optional(:tarball_url) => url(),
+          optional(:target_commitish) => git_tag(),
+          optional(:upload_url) => url(),
+          optional(:url) => url(),
+          optional(:zipball_url) => url()
         }
 
   @typedoc """
@@ -97,16 +113,16 @@ defmodule BeamLangsMetaData do
   This data is extracted from Github JSON release file and is stripped down and slightly modified.
   """
   @type release_data_asset :: %{
-          :download_url => url(),
-          :content_type => String.t(),
-          :created_at => timestamp_string(),
-          :id => pos_integer,
-          :label => nil | String.t(),
-          :name => file_name(),
-          :node_id => String.t(),
-          :size => non_neg_integer,
-          :state => String.t(),
-          :url => url()
+          optional(:download_url) => url(),
+          optional(:content_type) => String.t(),
+          optional(:created_at) => timestamp_string(),
+          optional(:id) => pos_integer,
+          optional(:label) => nil | String.t(),
+          optional(:name) => file_name(),
+          optional(:node_id) => String.t(),
+          optional(:size) => non_neg_integer,
+          optional(:state) => String.t(),
+          optional(:url) => url()
         }
 
   @typedoc """
